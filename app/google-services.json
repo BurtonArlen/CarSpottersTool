@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "402511369937",
+    "firebase_url": "https://carspotterstool.firebaseio.com",
+    "project_id": "carspotterstool",
+    "storage_bucket": "carspotterstool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402511369937:android:62e5d77ee464ebf9",
+        "android_client_info": {
+          "package_name": "com.example.guest.carspotterstool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "402511369937-njl8glp92410a2b3rr923aloor15pqv7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.guest.carspotterstool",
+            "certificate_hash": "53e348e7151eba63fe8b6350e300046efc9ab601"
+          }
+        },
+        {
+          "client_id": "402511369937-3g7q5laajclte9kcj7bmktlu4v0dn25s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ2IWHK4sBaCURkiW_0-zIpXoAQEdLjME"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "402511369937-3g7q5laajclte9kcj7bmktlu4v0dn25s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
