@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.guest.carspotterstool.models.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -34,6 +36,10 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.example.guest.carspotterstool.Constants;
 import com.example.guest.carspotterstool.R;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import static java.security.AccessController.getContext;
 
 
 public class SignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
@@ -41,6 +47,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     private FirebaseAuth mAuth;
     private GoogleApiClient mGClient;
     private static final int RC_SIGN_IN = 50360;
+    private User mUser;
     String TAG = SignInActivity.class.getSimpleName();
 
     @Override
