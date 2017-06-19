@@ -1,17 +1,21 @@
 package com.example.guest.carspotterstool.models;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 
 /**
  * Created by Guest on 6/19/17.
  */
 
+@Parcel
 public class User {
     private String name;
     private String leaderBoardStanding;
     private String imageUser;
     private String pushId;
     private String score;
+    private String contributionCount;
     private ArrayList<String> cars;
 
     public User(){}
@@ -24,23 +28,41 @@ public class User {
         return leaderBoardStanding;
     }
 
+    public void setLeaderBoardStanding(String leaderBoardStanding) { this.leaderBoardStanding = leaderBoardStanding; }
+
     public String getImageUser() {
         return imageUser;
     }
 
-    public String getPushId() { return pushId; }
+    public String getPushId() {
+        return pushId;
+    }
 
-    public void setPushId(String pushId) { this.pushId = pushId; }
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
+    }
+
+    public String getContributionCount(){
+        return contributionCount;
+    }
+
+    public void setContributionCount(String contributionCount){
+        this.contributionCount = contributionCount;
+    }
 
     public String getScore() {
         return score;
+    }
+
+    public String setScore(String score){
+        this.score = score;
     }
 
     public ArrayList<String> getCars() {
         return cars;
     }
 
-    public User(String name, String leaderBoardStanding, String imageUser, String score){
+    public User(String name, String leaderBoardStanding, String imageUser, String score, String contributionCount){
         this.name = name;
         this.leaderBoardStanding = leaderBoardStanding;
         this.imageUser = imageUser;
