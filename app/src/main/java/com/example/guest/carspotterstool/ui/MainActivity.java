@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
         String userName = mAuth.getCurrentUser().getDisplayName();
-        setTitle("Welcome to car-spotters " + userName);
+        setTitle(userName + "'s CarSpottersTool");
     }
 
     @Override
