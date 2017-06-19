@@ -2,6 +2,7 @@ package com.example.guest.carspotterstool.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,7 +39,7 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
     @Bind(R.id.modelEntry) EditText modelEntry;
     private static final int REQUEST_IMAGE_CAPTURE = 111;
     private PhotoContribution photoContribution;
-
+    private String imageUrlPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,10 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void saveToFirebase(String imageUrl){
-        PhotoContribution photoContribution = new PhotoContribution(imageUrl);
+        Log.d("year", yearEntry.getText().toString());
+        Log.d("make", makeEntry.getText().toString());
+        Log.d("model", modelEntry.getText().toString());
+        PhotoContribution photoContribution = new PhotoContribution(imageUrl, null, null, null);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance()
@@ -81,20 +87,47 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         DatabaseReference refUser = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                 .child(uid);
+        DatabaseReference refModel = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
+                .child(Constants.FIREBASE_CHILD_MODEL);
+        DatabaseReference refMake = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
+                .child(Constants.FIREBASE_CHILD_MAKE);
+        DatabaseReference refYear = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
+                .child(Constants.FIREBASE_CHILD_YEAR);
         DatabaseReference pushRef = ref.push();
         DatabaseReference userPushRef = refUser.push();
         String pushId = pushRef.getKey();
         photoContribution.setImageEncoded(imageUrl);
+        if (makeEntry.getText().toString() != ""){
+            photoContribution.setMake(makeEntry.getText().toString());
+        }
+        if (modelEntry.getText().toString() != ""){
+            photoContribution.setModel(modelEntry.getText().toString());
+        }
+        if (yearEntry.getText().toString() != ""){
+            photoContribution.setYear(modelEntry.getText().toString());
+        }
         photoContribution.setPushId(pushId);
         pushRef.setValue(photoContribution);
         userPushRef.setValue(photoContribution);
+        if (makeEntry.getText().toString() != ""){
+            refMake.setValue(photoContribution);
+        }
+        if (modelEntry.getText().toString() != ""){
+            refModel.setValue(photoContribution);
+        }
+        if (yearEntry.getText().toString() != ""){
+            refYear.setValue(photoContribution);
+        }
     }
 
     public void encodeBitmap(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         String imageUrl = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-        saveToFirebase(imageUrl);
+        imageUrlPass = imageUrl;
     }
 
     @Override
@@ -110,7 +143,7 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v){
         if (v == submitNewContributionButton){
-            onLaunchCamera();
+            saveToFirebase(imageUrlPass);
         }
     }
 }
