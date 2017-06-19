@@ -54,7 +54,7 @@ public class User {
         return score;
     }
 
-    public String setScore(String score){
+    public void setScore(String score){
         this.score = score;
     }
 
@@ -62,10 +62,11 @@ public class User {
         return cars;
     }
 
-    public User(String name, String leaderBoardStanding, String imageUser, String score, String contributionCount){
+    public User(String name, String imageUser){
         this.name = name;
-        this.leaderBoardStanding = leaderBoardStanding;
+        this.leaderBoardStanding = "not_set";
         this.imageUser = imageUser;
-        this.score = score;
+        this.score = "not_set";
+        this.contributionCount = "not_set";
     }
 }
