@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@color/colorAccent"
+        android:id="@+id/pictureView" />
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="Make"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@+id/pictureView"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="@+id/pictureView"
+        android:layout_marginTop="8dp"
+        android:id="@+id/makeText" />
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="Model"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@+id/pictureView"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/makeText"
+        android:id="@+id/modelText" />
+    <TextView
+        android:id="@+id/yearText"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="Year"
+        android:textSize="20sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/modelText"
+        app:layout_constraintLeft_toRightOf="@+id/pictureView"
+        android:layout_marginLeft="8dp" />
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="Photo Credit"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toRightOf="@+id/pictureView"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/photoCredit"/>
+
+</android.support.constraint.ConstraintLayout>
