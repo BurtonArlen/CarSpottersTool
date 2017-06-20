@@ -119,6 +119,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         Log.d("databaseQuery", query);
         DatabaseReference userRef = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
+                .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
                 .child(mDatabaseChild)
                 .child(query);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -128,6 +129,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     userContributions.add(snapshot.getValue(PhotoContribution.class));
                 }
                 mContributions = userContributions;
+
+                Log.d("ArrayContents", mContributions.get(0).toString());
 
                 FirebaseContributionListAdapter adapter = new FirebaseContributionListAdapter(getApplicationContext(), mContributions);
                 recyclerView.setAdapter(adapter);

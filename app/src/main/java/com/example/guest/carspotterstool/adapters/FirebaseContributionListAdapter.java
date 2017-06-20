@@ -41,7 +41,7 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
 
     @Override
     public void onBindViewHolder(FirebaseContributionListAdapter.FirebaseUserViewHolder holder, int position){
-        holder.bindUser(userContributions.get(position));
+        holder.bindContributions(userContributions.get(position));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
             int itemPosition = getLayoutPosition();
             Log.d("placeholder log",String.valueOf(itemPosition));
         }
-        public void bindUser(PhotoContribution contribution){
+        public void bindContributions(PhotoContribution contribution){
             makeText.setText(contribution.getMake());
             modelText.setText(contribution.getModel());
             yearText.setText(contribution.getYear());
