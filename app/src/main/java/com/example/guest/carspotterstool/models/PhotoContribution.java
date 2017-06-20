@@ -12,14 +12,34 @@ public class PhotoContribution {
     private String year;
     private String make;
     private String model;
+    private String submitterName;
+    private String submitterId;
 
     public PhotoContribution (){}
 
-    public PhotoContribution (String imageEncoded, String year, String make, String model){
+    public PhotoContribution (String imageEncoded, String year, String make, String model, String submitterName, String submitterId){
         this.imageEncoded = "url";
         this.year = "unknown";
         this.make = "unknown";
         this.model = "unknown";
+        this.submitterName = "unknown";
+        this.submitterId = "unknown";
+    }
+
+    public void setSubmitterId(String submitterId){
+        this.submitterId = submitterId;
+    }
+
+    public String getSubmitterId(){
+        return submitterId;
+    }
+
+    public void setSubmitterName(String submitterName){
+        this.submitterName = submitterName;
+    }
+
+    public String getSubmitterName(){
+        return submitterName;
     }
 
     public void setImageEncoded(String imageEncoded) { this.imageEncoded = imageEncoded; }

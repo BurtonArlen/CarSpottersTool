@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.example.guest.carspotterstool.Constants;
 import com.example.guest.carspotterstool.R;
-import com.example.guest.carspotterstool.adapters.FirebaseUserListAdapter;
+import com.example.guest.carspotterstool.adapters.FirebaseContributionListAdapter;
 import com.example.guest.carspotterstool.models.PhotoContribution;
-import com.example.guest.carspotterstool.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Bind(R.id.userScore) TextView mUserScore;
     @Bind(R.id.userStanding) TextView userStanding;
     @Bind(R.id.userContributionCount) TextView userContributionCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +59,9 @@ public class ProfileActivity extends AppCompatActivity {
                 .resize(MAX_WIDTH, MAX_HEIGHT)
                 .centerCrop()
                 .into(profilePicture);
-        getContributions(uid);
+        getContributions(uid, displayName);
     }
-    private void getContributions(String uid){
+    private void getContributions(String uid, final String displayName){
         final ArrayList<PhotoContribution> userContributions = new ArrayList<>();
         DatabaseReference userRef = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
@@ -78,10 +78,10 @@ public class ProfileActivity extends AppCompatActivity {
                 int contributionCount = userContributions.size();
                 int score = contributionCount*10;
                 int standing = 1;
-                mUserScore.setText("Score: " + String.valueOf(score));
-                userContributionCount.setText("Contribution Count: " + String.valueOf(contributionCount));
-                userStanding.setText("Leaderboard Standing of #" + String.valueOf(standing));
-                FirebaseUserListAdapter adapter = new FirebaseUserListAdapter(getApplicationContext(), mUserContributions);
+                mUserScore.setText(displayName + "'s Score: " + String.valueOf(score));
+                userContributionCount.setText(displayName + "'s Contribution Count: " + String.valueOf(contributionCount));
+                userStanding.setText(displayName + "'s Leaderboard Standing of #" + String.valueOf(standing));
+                FirebaseContributionListAdapter adapter = new FirebaseContributionListAdapter(getApplicationContext(), mUserContributions);
                 recyclerView.setAdapter(adapter);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ProfileActivity.this);
                 recyclerView.setLayoutManager(layoutManager);

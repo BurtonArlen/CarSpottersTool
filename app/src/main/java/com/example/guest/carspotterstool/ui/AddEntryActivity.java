@@ -78,8 +78,9 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         Log.d("year", yearEntry.getText().toString());
         Log.d("make", makeEntry.getText().toString());
         Log.d("model", modelEntry.getText().toString());
-        PhotoContribution photoContribution = new PhotoContribution(imageUrl, null, null, null);
+        PhotoContribution photoContribution = new PhotoContribution(imageUrl, null, null, null, null, null);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String displayName = user.getDisplayName();
         String uid = user.getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
@@ -108,6 +109,7 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         DatabaseReference makePushRef = refMake.push();
         DatabaseReference modelPushRef = refModel.push();
         DatabaseReference yearPushRef = refYear.push();
+        String pushId = pushRef.getKey();
         photoContribution.setImageEncoded(imageUrl);
         if (makeEntry.getText().toString() != ""){
             photoContribution.setMake(makeEntry.getText().toString());
@@ -118,6 +120,9 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         if (yearEntry.getText().toString() != ""){
             photoContribution.setYear(yearEntry.getText().toString());
         }
+        photoContribution.setPushId(pushId);
+        photoContribution.setSubmitterId(uid);
+        photoContribution.setSubmitterName(displayName);
         makePushRef.setValue(photoContribution);
         modelPushRef.setValue(photoContribution);
         yearPushRef.setValue(photoContribution);
