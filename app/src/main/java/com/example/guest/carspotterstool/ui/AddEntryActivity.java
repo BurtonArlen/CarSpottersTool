@@ -112,13 +112,13 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         String pushId = pushRef.getKey();
         photoContribution.setImageEncoded(imageUrl);
         if (makeEntry.getText().toString() != ""){
-            photoContribution.setMake(makeEntry.getText().toString());
+            photoContribution.setMake(makeEntry.getText().toString().trim());
         }
         if (modelEntry.getText().toString() != ""){
-            photoContribution.setModel(modelEntry.getText().toString());
+            photoContribution.setModel(modelEntry.getText().toString().trim());
         }
         if (yearEntry.getText().toString() != ""){
-            photoContribution.setYear(yearEntry.getText().toString());
+            photoContribution.setYear(yearEntry.getText().toString().trim());
         }
         photoContribution.setPushId(pushId);
         photoContribution.setSubmitterId(uid);
