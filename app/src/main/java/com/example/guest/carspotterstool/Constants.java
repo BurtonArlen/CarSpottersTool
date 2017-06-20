@@ -9,5 +9,5 @@ public class Constants {
     public static final String FIREBASE_CHILD_YEAR = "year";
     public static final String FIREBASE_CHILD_MAKE = "make";
     public static final String FIREBASE_CHILD_MODEL = "model";
-    public static final String FIREBASE_CHILD_USERS = "users";
+    public static final String FIREBASE_CHILD_ALL_CONTRIBUTIONS = "all contributions";
 }

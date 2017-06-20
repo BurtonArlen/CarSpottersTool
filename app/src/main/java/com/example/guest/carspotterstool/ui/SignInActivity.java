@@ -131,7 +131,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             findViewById(R.id.sign_in_button).setFocusable(false);
             enterToMainActivity();
         } else {
-            getSupportActionBar().setTitle("Please sign into BrewYou");
+            getSupportActionBar().setTitle("Please sign in");
         }
     }
     private void enterToMainActivity() {

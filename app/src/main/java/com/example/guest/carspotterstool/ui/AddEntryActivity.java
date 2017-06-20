@@ -83,22 +83,27 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         String uid = user.getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
-                .child("imageContributions");
+                .child(Constants.FIREBASE_CHILD_ALL_CONTRIBUTIONS);
         DatabaseReference refUser = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                 .child(uid);
         DatabaseReference refModel = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
-                .child(Constants.FIREBASE_CHILD_MODEL);
+                .child(Constants.FIREBASE_CHILD_MODEL)
+                .child(modelEntry.getText().toString());
         DatabaseReference refMake = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
-                .child(Constants.FIREBASE_CHILD_MAKE);
+                .child(Constants.FIREBASE_CHILD_MAKE)
+                .child(makeEntry.getText().toString());
         DatabaseReference refYear = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
-                .child(Constants.FIREBASE_CHILD_YEAR);
+                .child(Constants.FIREBASE_CHILD_YEAR)
+                .child(yearEntry.getText().toString());
         DatabaseReference pushRef = ref.push();
         DatabaseReference userPushRef = refUser.push();
-        String pushId = pushRef.getKey();
+        DatabaseReference makePushRef = refMake.push();
+        DatabaseReference modelPushRef = refModel.push();
+        DatabaseReference yearPushRef = refYear.push();
         photoContribution.setImageEncoded(imageUrl);
         if (makeEntry.getText().toString() != ""){
             photoContribution.setMake(makeEntry.getText().toString());
@@ -107,20 +112,13 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
             photoContribution.setModel(modelEntry.getText().toString());
         }
         if (yearEntry.getText().toString() != ""){
-            photoContribution.setYear(modelEntry.getText().toString());
+            photoContribution.setYear(yearEntry.getText().toString());
         }
-        photoContribution.setPushId(pushId);
+        makePushRef.setValue(photoContribution);
+        modelPushRef.setValue(photoContribution);
+        yearPushRef.setValue(photoContribution);
         pushRef.setValue(photoContribution);
         userPushRef.setValue(photoContribution);
-        if (makeEntry.getText().toString() != ""){
-            refMake.setValue(photoContribution);
-        }
-        if (modelEntry.getText().toString() != ""){
-            refModel.setValue(photoContribution);
-        }
-        if (yearEntry.getText().toString() != ""){
-            refYear.setValue(photoContribution);
-        }
     }
 
     public void encodeBitmap(Bitmap bitmap) {
@@ -144,6 +142,8 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v){
         if (v == submitNewContributionButton){
             saveToFirebase(imageUrlPass);
+            Intent intent = new Intent(AddEntryActivity.this, MainActivity.class);
+            startActivity(intent);
         }
     }
 }
