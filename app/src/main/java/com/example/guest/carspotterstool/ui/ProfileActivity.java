@@ -65,8 +65,8 @@ public class ProfileActivity extends AppCompatActivity {
         DatabaseReference userRef = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_USERS)
-                .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
-                .child(uid);
+                .child(uid)
+                .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
