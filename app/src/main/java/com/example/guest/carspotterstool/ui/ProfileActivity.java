@@ -37,7 +37,9 @@ public class ProfileActivity extends AppCompatActivity {
     @Bind(R.id.userName) TextView userName;
     @Bind(R.id.profilePicture) ImageView profilePicture;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
-
+    @Bind(R.id.userScore) TextView mUserScore;
+    @Bind(R.id.userStanding) TextView userStanding;
+    @Bind(R.id.userContributionCount) TextView userContributionCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +61,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .into(profilePicture);
         getContributions(uid);
     }
-
     private void getContributions(String uid){
         final ArrayList<PhotoContribution> userContributions = new ArrayList<>();
         DatabaseReference userRef = FirebaseDatabase.getInstance()
@@ -74,13 +75,18 @@ public class ProfileActivity extends AppCompatActivity {
                     userContributions.add(snapshot.getValue(PhotoContribution.class));
                 }
                 mUserContributions = userContributions;
+                int contributionCount = userContributions.size();
+                int score = contributionCount*10;
+                int standing = 1;
+                mUserScore.setText("Score: " + String.valueOf(score));
+                userContributionCount.setText("Contribution Count: " + String.valueOf(contributionCount));
+                userStanding.setText("Leaderboard Standing of #" + String.valueOf(standing));
                 FirebaseUserListAdapter adapter = new FirebaseUserListAdapter(getApplicationContext(), mUserContributions);
                 recyclerView.setAdapter(adapter);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ProfileActivity.this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setHasFixedSize(true);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 databaseError.getMessage();
