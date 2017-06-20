@@ -86,17 +86,21 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
                 .child(Constants.FIREBASE_CHILD_ALL_CONTRIBUTIONS);
         DatabaseReference refUser = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
-                .child(uid);
+                .child(Constants.FIREBASE_CHILD_USERS)
+                .child(uid).child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS);
         DatabaseReference refModel = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
+                .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_MODEL)
                 .child(modelEntry.getText().toString());
         DatabaseReference refMake = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
+                .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_MAKE)
                 .child(makeEntry.getText().toString());
         DatabaseReference refYear = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
+                .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_YEAR)
                 .child(yearEntry.getText().toString());
         DatabaseReference pushRef = ref.push();
