@@ -1,6 +1,5 @@
 package com.example.guest.carspotterstool.ui;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +7,7 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.example.guest.carspotterstool.R;
+import com.example.guest.carspotterstool.adapters.ImagePagerAdapter;
 import com.example.guest.carspotterstool.models.PhotoContribution;
 
 import org.parceler.Parcels;
@@ -18,11 +18,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ContributionDetailActivity extends AppCompatActivity {
-
     @Bind(R.id.container) FrameLayout container;
-//    private MoviePagerAdapter adapterViewPager;
-    ContributionDetailFragment detailFragment = new ContributionDetailFragment();
-    PhotoContribution fragmentFocus;
+    @Bind(R.id.viewPager) ViewPager viewPager;
+    private ImagePagerAdapter adapterViewPager;
     ArrayList<PhotoContribution> userContributions = new ArrayList<>();
 
     @Override
@@ -32,12 +30,23 @@ public class ContributionDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         userContributions = Parcels.unwrap(getIntent().getParcelableExtra("contributions"));
         int startingPosition = getIntent().getIntExtra("position", 0);
-        fragmentFocus = userContributions.get(startingPosition);
-        makeFragment();
+        makeFragment(startingPosition);
+        makeImagePager(startingPosition, userContributions);
     }
-        private void makeFragment(){
+    private void makeFragment(int position){
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, detailFragment.newInstance(fragmentFocus)).commit();
-
+        fragmentManager.beginTransaction().replace(R.id.container, ContributionDetailFragment.newInstance(userContributions.get(position))).commit();
     }
+    private void makeImagePager(int position, ArrayList<PhotoContribution> userContributions){
+        FragmentManager fm = getSupportFragmentManager();
+        adapterViewPager = new ImagePagerAdapter(fm, userContributions);
+        viewPager.setAdapter(adapterViewPager);
+        viewPager.setCurrentItem(position);
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        userContributions.clear();
+    }
+
 }

@@ -115,8 +115,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private void getContributionsBySearch(String query) {
         final ArrayList<PhotoContribution> userContributions = new ArrayList<>();
-        Log.d("databaseChild", mDatabaseChild);
-        Log.d("databaseQuery", query);
         DatabaseReference userRef = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
