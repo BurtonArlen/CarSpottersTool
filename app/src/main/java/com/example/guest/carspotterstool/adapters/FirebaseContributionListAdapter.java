@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
 public class FirebaseContributionListAdapter extends RecyclerView.Adapter<FirebaseContributionListAdapter.FirebaseUserViewHolder> {
     private ArrayList<PhotoContribution> userContributions = new ArrayList<>();
     private ArrayList<PhotoContribution> mCheckContributions = new ArrayList<>();
-    private ArrayList<PhotoContribution> similarContributions = new ArrayList<>();
+    private ArrayList<PhotoContribution> mSimilarContributions = new ArrayList<>();
     private Context mContext;
     public FirebaseContributionListAdapter(Context context, ArrayList<PhotoContribution> contributions){
         mContext = context;
@@ -76,14 +76,11 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
         }
+
         @Override
         public void onClick(View v){
             int itemPosition = getLayoutPosition();
             getSimilarContributions(itemPosition);
-            Intent intent = new Intent(mContext, ContributionDetailActivity.class);
-            intent.putExtra("position", itemPosition);
-            intent.putExtra("contributions", Parcels.wrap(similarContributions));
-            mContext.startActivity(intent);
         }
         public void bindContributions(PhotoContribution contribution){
             makeText.setText(contribution.getMake());
@@ -102,13 +99,11 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
                 return null;
             }
         }
-        private void getSimilarContributions(int itemPosition){
+        private void getSimilarContributions(final int itemPosition){
             final ArrayList<PhotoContribution> checkContributions = new ArrayList<>();
             final PhotoContribution selectedContribution = userContributions.get(itemPosition);
             final String makeKey = selectedContribution.getMake();
             final String modelKey = selectedContribution.getModel();
-            Log.d("selected Make", selectedContribution.getMake());
-            Log.d("selected Model", selectedContribution.getModel());
             DatabaseReference userRef = FirebaseDatabase.getInstance()
                     .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                     .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
@@ -118,13 +113,10 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Log.d("similar data", snapshot.getValue(PhotoContribution.class).getMake());
-                        Log.d("similar data", snapshot.getValue(PhotoContribution.class).getModel());
                         checkContributions.add(snapshot.getValue(PhotoContribution.class));
                     }
                     mCheckContributions = checkContributions;
-                    checkContributionsArray(mCheckContributions, modelKey);
-
+                    checkContributionsArray(mCheckContributions, modelKey, itemPosition);
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -132,14 +124,23 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
                 }
             });
         }
-        private ArrayList<PhotoContribution> checkContributionsArray(ArrayList<PhotoContribution> contributionArray, String modelKey){
+        private void checkContributionsArray(ArrayList<PhotoContribution> contributionArray, String modelKey, int itemPosition){
             ArrayList<PhotoContribution> checkedArray = new ArrayList<>();
             for (int i = 0; i < contributionArray.size(); i++){
                 if (contributionArray.get(i).getModel().equals(modelKey)){
                     checkedArray.add(contributionArray.get(i));
                 }
             }
-            return similarContributions = checkedArray;
+            mSimilarContributions = checkedArray;
+            startIntent(mSimilarContributions, itemPosition);
+        }
+        private void startIntent(ArrayList<PhotoContribution> mSimilarContributions, int itemPosition){
+            Log.d("Check", "Check");
+            Log.d("Check4", String.valueOf(mSimilarContributions.size()));
+            Intent intent = new Intent(mContext, ContributionDetailActivity.class);
+            intent.putExtra("position", itemPosition);
+            intent.putExtra("contributions", Parcels.wrap(mSimilarContributions));
+            mContext.startActivity(intent);
         }
     }
 }
