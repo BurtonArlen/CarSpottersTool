@@ -30,7 +30,7 @@ public class ContributionDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         userContributions = Parcels.unwrap(getIntent().getParcelableExtra("contributions"));
         int startingPosition = getIntent().getIntExtra("position", 0);
-        makeFragment(startingPosition);
+//        makeFragment(startingPosition);
         makeImagePager(startingPosition, userContributions);
     }
     private void makeFragment(int position){

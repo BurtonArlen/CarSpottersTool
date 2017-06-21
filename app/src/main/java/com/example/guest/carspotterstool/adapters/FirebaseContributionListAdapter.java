@@ -38,8 +38,7 @@ import butterknife.ButterKnife;
 
 public class FirebaseContributionListAdapter extends RecyclerView.Adapter<FirebaseContributionListAdapter.FirebaseUserViewHolder> {
     private ArrayList<PhotoContribution> userContributions = new ArrayList<>();
-    private ArrayList<PhotoContribution> similarMakeContributions = new ArrayList<>();
-    private ArrayList<PhotoContribution> similarModelContributions = new ArrayList<>();
+    private ArrayList<PhotoContribution> mCheckContributions = new ArrayList<>();
     private ArrayList<PhotoContribution> similarContributions = new ArrayList<>();
     private Context mContext;
     public FirebaseContributionListAdapter(Context context, ArrayList<PhotoContribution> contributions){
@@ -80,11 +79,7 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
         @Override
         public void onClick(View v){
             int itemPosition = getLayoutPosition();
-            getSimilarContributionsMake(itemPosition);
-
-            getSimilarContributionsModel(itemPosition);
-
-            compareContributions(similarMakeContributions, similarModelContributions);
+            getSimilarContributions(itemPosition);
             Intent intent = new Intent(mContext, ContributionDetailActivity.class);
             intent.putExtra("position", itemPosition);
             intent.putExtra("contributions", Parcels.wrap(similarContributions));
@@ -107,22 +102,29 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
                 return null;
             }
         }
-        private void getSimilarContributionsMake(int itemPosition){
-            final ArrayList<PhotoContribution> makeContributions = new ArrayList<>();
-            PhotoContribution selectedContribution = userContributions.get(itemPosition);
+        private void getSimilarContributions(int itemPosition){
+            final ArrayList<PhotoContribution> checkContributions = new ArrayList<>();
+            final PhotoContribution selectedContribution = userContributions.get(itemPosition);
+            final String makeKey = selectedContribution.getMake();
+            final String modelKey = selectedContribution.getModel();
+            Log.d("selected Make", selectedContribution.getMake());
+            Log.d("selected Model", selectedContribution.getModel());
             DatabaseReference userRef = FirebaseDatabase.getInstance()
                     .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                     .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
                     .child(Constants.FIREBASE_CHILD_MAKE)
-                    .child(selectedContribution.getMake());
+                    .child(makeKey);
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        makeContributions.add(snapshot.getValue(PhotoContribution.class));
+                        Log.d("similar data", snapshot.getValue(PhotoContribution.class).getMake());
+                        Log.d("similar data", snapshot.getValue(PhotoContribution.class).getModel());
+                        checkContributions.add(snapshot.getValue(PhotoContribution.class));
                     }
-                    similarMakeContributions = makeContributions;
-                    Log.d("datacheck", similarMakeContributions.get(0).getPushId());
+                    mCheckContributions = checkContributions;
+                    checkContributionsArray(mCheckContributions, modelKey);
+
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -130,39 +132,14 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
                 }
             });
         }
-        private void getSimilarContributionsModel(int itemPosition){
-            final ArrayList<PhotoContribution> modelContributions = new ArrayList<>();
-            PhotoContribution selectedContribution = userContributions.get(itemPosition);
-            DatabaseReference userRef = FirebaseDatabase.getInstance()
-                    .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
-                    .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
-                    .child(Constants.FIREBASE_CHILD_MODEL)
-                    .child(selectedContribution.getModel());
-            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        modelContributions.add(snapshot.getValue(PhotoContribution.class));
-                    }
-                    similarModelContributions = modelContributions;
-                    Log.d("datacheck", similarModelContributions.get(0).getPushId());
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    databaseError.getMessage();
-                }
-            });
-        }
-        public void compareContributions(ArrayList<PhotoContribution> make, ArrayList<PhotoContribution> model){
-            final ArrayList<PhotoContribution> comparedContributions = new ArrayList<>();
-            for (int i=0; i >= make.size(); i++){
-                for (int x=0; x >= model.size(); x++){
-                    if (make.get(i).getMake() == model.get(x).getMake() && make.get(i).getModel() == model.get(x).getModel()){
-                        comparedContributions.add(make.get(i));
-                    }
+        private ArrayList<PhotoContribution> checkContributionsArray(ArrayList<PhotoContribution> contributionArray, String modelKey){
+            ArrayList<PhotoContribution> checkedArray = new ArrayList<>();
+            for (int i = 0; i < contributionArray.size(); i++){
+                if (contributionArray.get(i).getModel().equals(modelKey)){
+                    checkedArray.add(contributionArray.get(i));
                 }
             }
-            similarContributions = comparedContributions;
+            return similarContributions = checkedArray;
         }
     }
 }
