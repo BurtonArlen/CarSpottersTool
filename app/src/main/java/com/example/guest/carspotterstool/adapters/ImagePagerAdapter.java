@@ -2,7 +2,7 @@ package com.example.guest.carspotterstool.adapters;
 
 import android.support.v4.app.FragmentPagerAdapter;
 import com.example.guest.carspotterstool.models.PhotoContribution;
-import com.example.guest.carspotterstool.ui.ImagePagerFragment;
+import com.example.guest.carspotterstool.ui.ContributionDetailFragment;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class ImagePagerAdapter extends FragmentPagerAdapter {
     }
     @Override
     public android.support.v4.app.Fragment getItem(int position) {
-        return ImagePagerFragment.newInstance(mContributions, position);
+        return ContributionDetailFragment.newInstance(mContributions, position);
     }
     @Override
     public int getCount() {

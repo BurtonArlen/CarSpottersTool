@@ -18,7 +18,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ContributionDetailActivity extends AppCompatActivity {
-    @Bind(R.id.container) FrameLayout container;
     @Bind(R.id.viewPager) ViewPager viewPager;
     private ImagePagerAdapter adapterViewPager;
     ArrayList<PhotoContribution> userContributions = new ArrayList<>();
@@ -30,19 +29,18 @@ public class ContributionDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         userContributions = Parcels.unwrap(getIntent().getParcelableExtra("contributions"));
         int startingPosition = getIntent().getIntExtra("position", 0);
-//        makeFragment(startingPosition);
-        makeImagePager(startingPosition, userContributions);
-    }
-    private void makeFragment(int position){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, ContributionDetailFragment.newInstance(userContributions.get(position))).commit();
-    }
-    private void makeImagePager(int position, ArrayList<PhotoContribution> userContributions){
         FragmentManager fm = getSupportFragmentManager();
         adapterViewPager = new ImagePagerAdapter(fm, userContributions);
         viewPager.setAdapter(adapterViewPager);
-        viewPager.setCurrentItem(position);
+        viewPager.setCurrentItem(startingPosition);
+//        makeImagePager(startingPosition, userContributions);
     }
+//    private void makeImagePager(int position, ArrayList<PhotoContribution> userContributions){
+//        FragmentManager fm = getSupportFragmentManager();
+//        adapterViewPager = new ImagePagerAdapter(fm, userContributions);
+//        viewPager.setAdapter(adapterViewPager);
+//        viewPager.setCurrentItem(position);
+//    }
     @Override
     public void onDestroy(){
         super.onDestroy();
