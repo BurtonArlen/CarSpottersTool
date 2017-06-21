@@ -22,7 +22,8 @@
         <activity android:name=".ui.AddEntryActivity" />
         <activity android:name=".ui.ContributeActivity" />
         <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.SearchActivity"></activity>
+        <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.ContributionDetailActivity"></activity>
     </application>
 
 </manifest>

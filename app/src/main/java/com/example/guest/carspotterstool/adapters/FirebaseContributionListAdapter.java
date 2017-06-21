@@ -1,6 +1,7 @@
 package com.example.guest.carspotterstool.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 
 import com.example.guest.carspotterstool.R;
 import com.example.guest.carspotterstool.models.PhotoContribution;
+import com.example.guest.carspotterstool.ui.ContributionDetailActivity;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -65,7 +69,10 @@ public class FirebaseContributionListAdapter extends RecyclerView.Adapter<Fireba
         @Override
         public void onClick(View v){
             int itemPosition = getLayoutPosition();
-            Log.d("placeholder log",String.valueOf(itemPosition));
+            Intent intent = new Intent(mContext, ContributionDetailActivity.class);
+            intent.putExtra("position", itemPosition);
+            intent.putExtra("contributions", Parcels.wrap(userContributions));
+            mContext.startActivity(intent);
         }
         public void bindContributions(PhotoContribution contribution){
             makeText.setText(contribution.getMake());
