@@ -40,6 +40,9 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
     private static final int REQUEST_IMAGE_CAPTURE = 111;
     private PhotoContribution photoContribution;
     private String imageUrlPass;
+    private String mModel;
+    private String mMake;
+    private String mYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +78,21 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void saveToFirebase(String imageUrl){
-        Log.d("year", yearEntry.getText().toString());
-        Log.d("make", makeEntry.getText().toString());
-        Log.d("model", modelEntry.getText().toString());
+        if (makeEntry.getText().toString().trim().length() == 0){
+            mMake = "unknown";
+        } else {
+            mMake = makeEntry.getText().toString().trim();
+        }
+        if (modelEntry.getText().toString().trim().length() == 0){
+            mModel = "unknown";
+        } else {
+            mModel = modelEntry.getText().toString().trim();
+        }
+        if (yearEntry.getText().toString().trim().length() == 0) {
+            mYear = "unknown";
+        } else {
+            mYear = yearEntry.getText().toString().trim();
+        }
         PhotoContribution photoContribution = new PhotoContribution(imageUrl, null, null, null, null, null);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String displayName = user.getDisplayName();
@@ -93,17 +108,17 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_MODEL)
-                .child(modelEntry.getText().toString());
+                .child(mModel);
         DatabaseReference refMake = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_MAKE)
-                .child(makeEntry.getText().toString());
+                .child(mMake);
         DatabaseReference refYear = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_CAR_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_YEAR)
-                .child(yearEntry.getText().toString());
+                .child(mYear);
         DatabaseReference pushRef = ref.push();
         DatabaseReference userPushRef = refUser.push();
         DatabaseReference makePushRef = refMake.push();
@@ -111,15 +126,9 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         DatabaseReference yearPushRef = refYear.push();
         String pushId = pushRef.getKey();
         photoContribution.setImageEncoded(imageUrl);
-        if (makeEntry.getText().toString() != ""){
-            photoContribution.setMake(makeEntry.getText().toString().trim());
-        }
-        if (modelEntry.getText().toString() != ""){
-            photoContribution.setModel(modelEntry.getText().toString().trim());
-        }
-        if (yearEntry.getText().toString() != ""){
-            photoContribution.setYear(yearEntry.getText().toString().trim());
-        }
+        photoContribution.setModel(mModel);
+        photoContribution.setMake(mMake);
+        photoContribution.setYear(mYear);
         photoContribution.setPushId(pushId);
         photoContribution.setSubmitterId(uid);
         photoContribution.setSubmitterName(displayName);
