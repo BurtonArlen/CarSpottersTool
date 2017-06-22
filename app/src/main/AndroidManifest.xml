@@ -24,7 +24,8 @@
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.SearchActivity" />
         <activity android:name=".ui.ContributionDetailActivity" />
-        <activity android:name=".ui.IntentUserProfile"></activity>
+        <activity android:name=".ui.IntentUserProfile" />
+        <activity android:name=".ui.SetUserInfoActivity"></activity>
     </application>
 
 </manifest>

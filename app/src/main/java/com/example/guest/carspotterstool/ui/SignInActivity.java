@@ -36,8 +36,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.example.guest.carspotterstool.Constants;
 import com.example.guest.carspotterstool.R;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import static java.security.AccessController.getContext;
 
@@ -134,14 +139,41 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             getSupportActionBar().setTitle("Please sign in");
         }
     }
-    private void enterToMainActivity() {
-        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailure:" + connectionResult);
+    }
+    private void enterToMainActivity() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        final String fUid = uid;
+        final ArrayList<User> uidList = new ArrayList<>();
+        DatabaseReference refUser = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
+                .child(Constants.FIREBASE_CHILD_USERS)
+                .child(Constants.FIREBASE_CHILD_ALL_USERS).child(uid);
+        refUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    uidList.add(snapshot.getValue(User.class));
+                }
+                String compareUid = uidList.get(0).getUid();
+                if (compareUid.equals(fUid)) {
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(SignInActivity.this, SetUserInfoActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                databaseError.getMessage();
+            }
+        });
     }
     @Override
     public void onClick(View v) {
