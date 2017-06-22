@@ -1,4 +1,4 @@
-package com.example.guest.carspotterstool.ui;
+package com.example.guest.carspotterstool.ui.fragments;
 
 
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.guest.carspotterstool.R;
 import com.example.guest.carspotterstool.models.PhotoContribution;
+import com.example.guest.carspotterstool.ui.user.IntentUserProfile;
 
 import org.parceler.Parcels;
 
@@ -80,14 +80,18 @@ public class ContributionDetailFragment extends Fragment implements View.OnClick
         scrollPhoto.setOnClickListener(this);
         return view;
     }
+    public void goToUserProfile(String uid, String firebaseKey, String name){
+        Intent intent = new Intent(getActivity(), IntentUserProfile.class);
+        intent.putExtra("uid", uid);
+        intent.putExtra("firebaseKey", firebaseKey);
+        intent.putExtra("displayName", name);
+        startActivity(intent);
+    }
     @Override
     public void onClick(View v){
         if (v == upVoteButton){
             Log.d("vote", "YouVotedSticker.jpg");
-            Intent intent = new Intent(getActivity(), IntentUserProfile.class);
-            intent.putExtra("uid", mContribution.getSubmitterId());
-            intent.putExtra("displayName", mContribution.getSubmitterName());
-            startActivity(intent);
+            goToUserProfile(mContribution.getSubmitterId(), mContribution.getSubmitterFirebaseKey(), mContribution.getSubmitterName());
         }
         if (v == scrollPhoto){
             Log.d("get submitter Id", "go to users profile");

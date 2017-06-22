@@ -11,21 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SignInActivity">
+        <activity android:name=".ui.auth.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ProfileActivity" />
-        <activity android:name=".ui.AddEntryActivity" />
-        <activity android:name=".ui.ContributeActivity" />
-        <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.SearchActivity" />
-        <activity android:name=".ui.ContributionDetailActivity" />
-        <activity android:name=".ui.IntentUserProfile" />
-        <activity android:name=".ui.SetUserInfoActivity"></activity>
+        <activity android:name=".ui.user.ProfileActivity" />
+        <activity android:name=".ui.contribution.AddEntryActivity" />
+        <activity android:name=".ui.contribution.ContributeActivity" />
+        <activity android:name=".ui.appflow.MainActivity" />
+        <activity android:name=".ui.contribution.SearchActivity" />
+        <activity android:name=".ui.contribution.ContributionDetailActivity" />
+        <activity android:name=".ui.user.IntentUserProfile" />
+        <activity android:name=".ui.auth.SetUserInfoActivity"></activity>
     </application>
 
 </manifest>

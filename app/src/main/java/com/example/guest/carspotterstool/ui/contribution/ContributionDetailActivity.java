@@ -1,4 +1,4 @@
-package com.example.guest.carspotterstool.ui;
+package com.example.guest.carspotterstool.ui.contribution;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;

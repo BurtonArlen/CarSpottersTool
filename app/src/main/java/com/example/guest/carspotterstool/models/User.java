@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 @Parcel
 public class User {
+    private String firebaseKey;
+    private String displayName;
     private String name;
     private String uid;
     private String leaderBoardStanding;
@@ -20,6 +22,26 @@ public class User {
     private ArrayList<String> cars;
 
     public User(){}
+
+    public String getFirebaseKey() {
+        return firebaseKey;
+    }
+
+    public void setFirebaseKey(String firebaseKey) {
+        this.firebaseKey = firebaseKey;
+    }
+
+    public void setImageUser(String imageUser) {
+        this.imageUser = imageUser;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 
     public String getName() {
         return name;
@@ -71,12 +93,14 @@ public class User {
         return cars;
     }
 
-    public User(String name, String imageUser, String uid){
+    public User(String displayName, String name, String imageUser, String uid){
+        this.displayName = displayName;
         this.name = name;
         this.leaderBoardStanding = "not_set";
         this.imageUser = imageUser;
         this.score = "not_set";
         this.contributionCount = "not_set";
         this.uid = uid;
+
     }
 }

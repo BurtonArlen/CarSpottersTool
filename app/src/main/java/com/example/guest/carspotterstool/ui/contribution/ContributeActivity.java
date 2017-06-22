@@ -1,4 +1,4 @@
-package com.example.guest.carspotterstool.ui;
+package com.example.guest.carspotterstool.ui.contribution;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.guest.carspotterstool.Constants;
 import com.example.guest.carspotterstool.R;

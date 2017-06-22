@@ -1,11 +1,8 @@
-package com.example.guest.carspotterstool.ui;
+package com.example.guest.carspotterstool.ui.fragments;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

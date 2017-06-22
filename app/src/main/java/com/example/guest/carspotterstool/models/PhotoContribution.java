@@ -14,16 +14,26 @@ public class PhotoContribution {
     private String model;
     private String submitterName;
     private String submitterId;
+    private String submitterFirebaseKey;
 
     public PhotoContribution (){}
 
-    public PhotoContribution (String imageEncoded, String year, String make, String model, String submitterName, String submitterId){
+    public PhotoContribution (String imageEncoded, String year, String make, String model, String submitterName, String submitterId, String submitterFirebaseKey){
+        this.submitterFirebaseKey = "firebaseKey";
         this.imageEncoded = "url";
         this.year = "unknown";
         this.make = "unknown";
         this.model = "unknown";
         this.submitterName = "unknown";
         this.submitterId = "unknown";
+    }
+
+    public String getSubmitterFirebaseKey() {
+        return submitterFirebaseKey;
+    }
+
+    public void setSubmitterFirebaseKey(String submitterFirebaseKey) {
+        this.submitterFirebaseKey = submitterFirebaseKey;
     }
 
     public void setSubmitterId(String submitterId){

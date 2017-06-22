@@ -1,31 +1,20 @@
-package com.example.guest.carspotterstool.ui;
+package com.example.guest.carspotterstool.ui.contribution;
 
-import android.content.Context;
-import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.guest.carspotterstool.Constants;
 import com.example.guest.carspotterstool.R;
 import com.example.guest.carspotterstool.adapters.FirebaseContributionListAdapter;
 import com.example.guest.carspotterstool.models.PhotoContribution;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

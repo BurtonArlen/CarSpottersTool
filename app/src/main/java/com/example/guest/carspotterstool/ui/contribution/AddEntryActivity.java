@@ -1,8 +1,7 @@
-package com.example.guest.carspotterstool.ui;
+package com.example.guest.carspotterstool.ui.contribution;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,14 +18,18 @@ import android.widget.ImageView;
 import com.example.guest.carspotterstool.Constants;
 import com.example.guest.carspotterstool.R;
 import com.example.guest.carspotterstool.models.PhotoContribution;
+import com.example.guest.carspotterstool.models.User;
+import com.example.guest.carspotterstool.ui.appflow.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,7 +41,11 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
     @Bind(R.id.makeEntry) EditText makeEntry;
     @Bind(R.id.modelEntry) EditText modelEntry;
     private static final int REQUEST_IMAGE_CAPTURE = 111;
+    private ArrayList<User> mUserArray = new ArrayList<>();
+    private ArrayList<String> mUserFirebaseKeys = new ArrayList<>();
     private PhotoContribution photoContribution;
+    private FirebaseAuth mAuth;
+    private String firebaseKey;
     private String imageUrlPass;
     private String mModel;
     private String mMake;
@@ -50,6 +57,10 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_add_entry);
         ButterKnife.bind(this);
         submitNewContributionButton.setOnClickListener(this);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        getFirebaseCurrentUser(uid);
     }
 
     @Override
@@ -77,7 +88,38 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public void getFirebaseCurrentUser(String uid){
+        final ArrayList<User> userArray = new ArrayList<>();
+        final ArrayList<String> userFirebaseKeys = new ArrayList<>();
+        DatabaseReference checkUser = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
+                .child(Constants.FIREBASE_CHILD_USERS).child(uid);
+        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                userArray.add(snapshot.getValue(User.class));
+            }
+            mUserArray = userArray;
+            for (int i = 0; i < mUserArray.size(); i++){
+                userFirebaseKeys.add(mUserArray.get(i).getFirebaseKey());
+            }
+            mUserFirebaseKeys = userFirebaseKeys;
+            returnFirebaseKey(mUserFirebaseKeys);
+        }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
+
+    public void returnFirebaseKey(ArrayList<String> keyList){
+        firebaseKey = keyList.get(0);
+    }
+
     public void saveToFirebase(String imageUrl){
+
         if (makeEntry.getText().toString().trim().length() == 0){
             mMake = "unknown";
         } else {
@@ -93,7 +135,7 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         } else {
             mYear = yearEntry.getText().toString().trim();
         }
-        PhotoContribution photoContribution = new PhotoContribution(imageUrl, null, null, null, null, null);
+        PhotoContribution photoContribution = new PhotoContribution(imageUrl, null, null, null, null, null, null);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String displayName = user.getDisplayName();
         String uid = user.getUid();
@@ -126,6 +168,7 @@ public class AddEntryActivity extends AppCompatActivity implements View.OnClickL
         DatabaseReference yearPushRef = refYear.push();
         String pushId = pushRef.getKey();
         photoContribution.setImageEncoded(imageUrl);
+        photoContribution.setSubmitterFirebaseKey(firebaseKey);
         photoContribution.setModel(mModel);
         photoContribution.setMake(mMake);
         photoContribution.setYear(mYear);

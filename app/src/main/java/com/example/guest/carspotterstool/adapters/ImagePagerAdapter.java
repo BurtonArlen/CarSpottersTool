@@ -2,7 +2,7 @@ package com.example.guest.carspotterstool.adapters;
 
 import android.support.v4.app.FragmentPagerAdapter;
 import com.example.guest.carspotterstool.models.PhotoContribution;
-import com.example.guest.carspotterstool.ui.ContributionDetailFragment;
+import com.example.guest.carspotterstool.ui.fragments.ContributionDetailFragment;
 
 import java.util.ArrayList;
 
