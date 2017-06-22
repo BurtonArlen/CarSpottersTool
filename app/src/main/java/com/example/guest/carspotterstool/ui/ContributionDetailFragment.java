@@ -1,6 +1,7 @@
 package com.example.guest.carspotterstool.ui;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -83,6 +84,10 @@ public class ContributionDetailFragment extends Fragment implements View.OnClick
     public void onClick(View v){
         if (v == upVoteButton){
             Log.d("vote", "YouVotedSticker.jpg");
+            Intent intent = new Intent(getActivity(), IntentUserProfile.class);
+            intent.putExtra("uid", mContribution.getSubmitterId());
+            intent.putExtra("displayName", mContribution.getSubmitterName());
+            startActivity(intent);
         }
         if (v == scrollPhoto){
             Log.d("get submitter Id", "go to users profile");
