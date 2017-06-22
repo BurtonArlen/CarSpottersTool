@@ -76,6 +76,7 @@ public class ContributionDetailFragment extends Fragment implements View.OnClick
         makeText.setText("Make: " + mContribution.getMake());
         modelText.setText("Model: " + mContribution.getModel());
         yearText.setText("Year: " + mContribution.getYear());
+        upVoteButton.setText("View " + mContribution.getSubmitterName() + "'s Profile");
         upVoteButton.setOnClickListener(this);
         scrollPhoto.setOnClickListener(this);
         return view;
