@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void userToFirebase(){
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String displayName = user.getDisplayName();
         String uid = user.getUid();
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void getUserStats(String uid) {
         final String userId = uid;
-
         final ArrayList<User> userList = new ArrayList<>();
         DatabaseReference refUserPull = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
