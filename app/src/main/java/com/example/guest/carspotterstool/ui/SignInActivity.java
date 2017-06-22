@@ -147,7 +147,8 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         final String fUid = uid;
-        final ArrayList<User> uidList = new ArrayList<>();
+        ArrayList<User> uidList1 = new ArrayList<>();
+        final ArrayList<User> uidList = uidList1;
         DatabaseReference refUser = FirebaseDatabase.getInstance()
                 .getReference(Constants.FIREBASE_CHILD_CONTRIBUTIONS)
                 .child(Constants.FIREBASE_CHILD_USERS)
@@ -157,6 +158,14 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     uidList.add(snapshot.getValue(User.class));
+                }
+                if (uidList.get(0).getPushId() != null){
+                    String compareUid = uidList.get(0).getPushId();
+                    Log.d("itsalogPUSHid",compareUid);
+                }
+                if (uidList.get(0).getUid() != null){
+                    String compareUid = uidList.get(0).getUid();
+                    Log.d("itsalogUid",compareUid);
                 }
                 String compareUid = uidList.get(0).getUid();
                 if (compareUid.equals(fUid)) {
